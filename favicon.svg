@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- 古錢幣造型，圓形外廓與方形內孔 (使用 fill-rule="evenodd" 實現簍空) -->
+  <path d="M32 2 A30 30 0 1 0 32 62 A30 30 0 1 0 32 2 Z M44 44 L20 44 L20 20 L44 20 Z" fill="#3e2723" fill-rule="evenodd" />
+</svg>

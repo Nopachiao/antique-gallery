@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>雅集 - 古董珍藏賞析</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 
     <!-- 引入 Google 字體：Noto Serif TC (思源宋體) 以呈現古典優雅感 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -104,9 +105,8 @@
     <header id="home"
         class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden flex items-center justify-center min-h-[85vh]">
         <div class="absolute inset-0 z-0">
-            <!-- 背景圖示範 -->
-            <img src="https://placehold.co/1920x1080/3e2723/d4c4a8?text=Antique+Background" alt="Hero Background"
-                class="w-full h-full object-cover opacity-20">
+            <!-- 暫代背景色 -->
+            <div class="absolute inset-0 bg-antique-dark opacity-20"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-antique-light/50 to-antique-light"></div>
         </div>
 
@@ -126,7 +126,7 @@
                 </h1>
 
                 <p class="text-xl md:text-2xl text-antique-dark font-semibold mb-6 tracking-wider">
-                    含「春秋、戰國、漢唐、宋元、明、清、民國」各朝代珍寶。
+                    含「春秋、戰國、漢唐、宋元、明、清、民國」歷代珍寶。
                 </p>
 
                 <div class="w-16 h-0.5 bg-antique-DEFAULT mx-auto mb-6"></div>
@@ -176,10 +176,12 @@
         <!-- 關閉按鈕 -->
         <button id="lightbox-close"
             class="absolute top-6 right-6 text-white text-4xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&times;</button>
-        
+
         <!-- 切換按鈕 -->
-        <button id="lightbox-prev" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl md:text-5xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&#10094;</button>
-        <button id="lightbox-next" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl md:text-5xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&#10095;</button>
+        <button id="lightbox-prev"
+            class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl md:text-5xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&#10094;</button>
+        <button id="lightbox-next"
+            class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl md:text-5xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&#10095;</button>
 
         <!-- 圖片顯示區 -->
         <div class="relative max-w-4xl max-h-[80vh] w-full px-4 flex justify-center">
@@ -193,12 +195,13 @@
         </div>
     </div>
 
-    <section id="about" class="bg-antique-dark text-antique-light py-20 mt-12 selection:bg-white selection:text-antique-dark">
+    <section id="about"
+        class="bg-antique-dark text-antique-light py-20 mt-12 selection:bg-white selection:text-antique-dark">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold tracking-widest mb-8">關於這批珍藏</h2>
             <p class="text-lg leading-loose text-antique-light/80 text-justify md:text-center">
-                近 300 件的珍寶，涵蓋了春秋戰國至民國歷代，包含精美的紫砂壺、瓷器、玉器等，皆是民國 80
-                年左右從澳門、香港來台的跑單幫客手中悉心購入。由於數量龐大且珍貴，目前僅提供大批或整批銷售，希望能找到有緣的收藏家，讓這些時光瑰寶得以延續其文化價值。本站隨選了其中約 30 件藏品照片供您線上賞析。
+                近 300 件的珍寶，涵蓋了春秋戰國至民國歷代，包含精美的紫砂壺、瓷器、玉器等，是約民國 80
+                年左右，從澳門、香港來台的跑單幫客手中悉心購入。由於數量龐大且珍貴，目前僅提供大批或整批銷售，希望能找到有緣的收藏家，讓這些時光瑰寶得以延續其文化價值。本站隨選了其中約 30 件藏品照片供您線上賞析。
             </p>
         </div>
     </section>
@@ -345,7 +348,7 @@
                 // 拖曳時暫時移除過渡動畫，讓移動更順暢
                 lightboxImg.classList.remove('transition-transform', 'duration-200');
             });
-            
+
             window.addEventListener('mousemove', (e) => {
                 if (!isDragging) return;
                 e.preventDefault();
@@ -367,11 +370,11 @@
             // 計算最大可拖曳的邊界（避免照片邊緣進入畫面內）
             const maxX = Math.max(0, (lightboxImg.offsetWidth * currentScale - window.innerWidth) / 2);
             const maxY = Math.max(0, (lightboxImg.offsetHeight * currentScale - window.innerHeight) / 2);
-            
+
             // 限制位移範圍
             translateX = Math.max(-maxX, Math.min(maxX, translateX));
             translateY = Math.max(-maxY, Math.min(maxY, translateY));
-            
+
             lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
         }
 
@@ -382,7 +385,7 @@
             translateY = 0;
             lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
             lightboxImg.style.cursor = 'grab';
-            
+
             const item = antiques[currentImageIndex];
             lightboxImg.src = item.img;
             lightboxTitle.innerText = item.title;
