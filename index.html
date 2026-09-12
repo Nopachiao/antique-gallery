@@ -175,12 +175,16 @@
         class="fixed inset-0 z-50 bg-black/90 hidden flex-col justify-center items-center opacity-0 transition-opacity duration-300">
         <!-- 關閉按鈕 -->
         <button id="lightbox-close"
-            class="absolute top-6 right-6 text-white text-4xl hover:text-antique-DEFAULT transition-colors focus:outline-none">&times;</button>
+            class="absolute top-6 right-6 text-white text-4xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&times;</button>
+        
+        <!-- 切換按鈕 -->
+        <button id="lightbox-prev" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 text-white text-4xl md:text-5xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&#10094;</button>
+        <button id="lightbox-next" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 text-white text-4xl md:text-5xl hover:text-antique-DEFAULT transition-colors focus:outline-none z-10">&#10095;</button>
 
         <!-- 圖片顯示區 -->
         <div class="relative max-w-4xl max-h-[80vh] w-full px-4 flex justify-center">
             <img id="lightbox-img" src="" alt="Enlarged Antique"
-                class="max-h-[80vh] w-auto object-contain rounded shadow-2xl">
+                class="max-h-[80vh] w-auto object-contain rounded shadow-2xl transition-transform duration-200">
         </div>
 
         <!-- 標題與說明 -->
@@ -209,45 +213,16 @@
     </footer>
 
     <script>
-        // 定義古董分類
-        const categories = [
-            { id: 'all', name: '全部藏品' },
-            { id: 'porcelain', name: '瓷器' },
-            { id: 'jade', name: '玉器' },
-            { id: 'wood', name: '木雕' },
-            { id: 'painting', name: '字畫' }
-        ];
-
-        // 模擬 30 張古董照片的資料
-        // 【注意】未來您可以將此處的 img 網址，替換為您自己電腦中的圖片路徑 (例如: './images/photo1.jpg')
+        // 載入 Images 資料夾中的 20 張照片
         const antiques = [];
 
-        // 為了展示方便，我們使用迴圈自動生成 30 筆模擬資料
-        const categoryIds = ['porcelain', 'jade', 'wood', 'painting'];
-        const colors = {
-            'porcelain': { bg: '3e2723', text: 'd7ccc8' }, // 深棕底
-            'jade': { bg: '1b5e20', text: 'c8e6c9' },      // 墨綠底
-            'wood': { bg: '4e342e', text: 'd4c4a8' },      // 木色底
-            'painting': { bg: '212121', text: 'f5f0e6' }   // 灰黑底
-        };
-
-        for (let i = 1; i <= 30; i++) {
-            let catIndex = (i % 4);
-            let catId = categoryIds[catIndex];
-            let catName = categories.find(c => c.id === catId).name;
-            let c = colors[catId];
-
-            // 隨機產生不同的長寬比以豐富視覺，但為了排版整齊此處統一使用 600x800
-            let width = 600;
-            let height = 800;
-
+        for (let i = 1; i <= 20; i++) {
             antiques.push({
                 id: i,
-                title: `${catName}珍品 ${i} 號`,
-                category: catId,
-                categoryName: catName,
-                // 使用 Placehold.co 產生佔位圖
-                img: `https://placehold.co/${width}x${height}/${c.bg}/${c.text}?text=${encodeURIComponent(catName + '\nNo.' + i)}`
+                title: `珍藏品 ${i} 號`,
+                category: 'all',
+                categoryName: '珍品',
+                img: `./Images/Image (${i}).jpg`
             });
         }
 
@@ -293,18 +268,28 @@
                     </div>
                     <!-- 懸浮覆蓋層 -->
                     <div class="overlay absolute inset-0 bg-antique-dark/70 opacity-0 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-4">
-                        <span class="text-antique-DEFAULT text-xs tracking-widest uppercase mb-2 border border-antique-DEFAULT px-2 py-1">${item.categoryName}</span>
+                        <span class="text-antique-DEFAULT text-xs tracking-widest uppercase mb-2">${item.categoryName}</span>
                         <h3 class="text-antique-light text-xl font-serif tracking-wider">${item.title}</h3>
                         <span class="mt-4 text-white/50 text-sm">點擊放大檢視 +</span>
                     </div>
                 `;
 
                 // 點擊開啟燈箱
-                itemDiv.onclick = () => openLightbox(item);
+                itemDiv.onclick = () => {
+                    currentImageIndex = index;
+                    openLightbox();
+                };
 
                 galleryGrid.appendChild(itemDiv);
             });
         }
+
+        // 記錄目前選取的圖片索引、縮放比例與拖曳狀態
+        let currentImageIndex = 0;
+        let currentScale = 1;
+        let isDragging = false;
+        let startX = 0, startY = 0;
+        let translateX = 0, translateY = 0;
 
         // 燈箱 (Lightbox) 邏輯
         function setupLightbox() {
@@ -318,18 +303,106 @@
                 }
             };
 
-            // 支援 ESC 鍵關閉
+            // 綁定切換按鈕
+            document.getElementById('lightbox-prev').onclick = (e) => {
+                e.stopPropagation();
+                showPrevImage();
+            };
+            document.getElementById('lightbox-next').onclick = (e) => {
+                e.stopPropagation();
+                showNextImage();
+            };
+
+            // 支援 ESC 鍵及方向鍵
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-                    closeLightbox();
+                if (!lightbox.classList.contains('hidden')) {
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowRight') showNextImage();
+                }
+            });
+
+            // 支援滑鼠滾輪縮放
+            lightbox.addEventListener('wheel', (e) => {
+                if (!lightbox.classList.contains('hidden')) {
+                    e.preventDefault();
+                    if (e.deltaY < 0) {
+                        currentScale += 0.1; // 放大
+                    } else {
+                        currentScale -= 0.1; // 縮小
+                    }
+                    // 限制縮放比例介於 0.5 到 3 之間
+                    currentScale = Math.max(0.5, Math.min(currentScale, 3));
+                    updateTransform();
+                }
+            }, { passive: false });
+
+            // 支援滑鼠拖曳移動
+            lightboxImg.addEventListener('mousedown', (e) => {
+                e.preventDefault(); // 防止預設的圖片拖曳行為
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                lightboxImg.style.cursor = 'grabbing';
+                // 拖曳時暫時移除過渡動畫，讓移動更順暢
+                lightboxImg.classList.remove('transition-transform', 'duration-200');
+            });
+            
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                updateTransform();
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    lightboxImg.style.cursor = 'grab';
+                    lightboxImg.classList.add('transition-transform', 'duration-200');
                 }
             });
         }
 
-        function openLightbox(item) {
+        function updateTransform() {
+            // 計算最大可拖曳的邊界（避免照片邊緣進入畫面內）
+            const maxX = Math.max(0, (lightboxImg.offsetWidth * currentScale - window.innerWidth) / 2);
+            const maxY = Math.max(0, (lightboxImg.offsetHeight * currentScale - window.innerHeight) / 2);
+            
+            // 限制位移範圍
+            translateX = Math.max(-maxX, Math.min(maxX, translateX));
+            translateY = Math.max(-maxY, Math.min(maxY, translateY));
+            
+            lightboxImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+        }
+
+        function updateLightboxView() {
+            // 重置縮放比例與位移
+            currentScale = 1;
+            translateX = 0;
+            translateY = 0;
+            lightboxImg.style.transform = `translate(0px, 0px) scale(1)`;
+            lightboxImg.style.cursor = 'grab';
+            
+            const item = antiques[currentImageIndex];
             lightboxImg.src = item.img;
             lightboxTitle.innerText = item.title;
             lightboxCategory.innerText = item.categoryName;
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + antiques.length) % antiques.length;
+            updateLightboxView();
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % antiques.length;
+            updateLightboxView();
+        }
+
+        function openLightbox() {
+            updateLightboxView();
 
             lightbox.classList.remove('hidden');
             lightbox.classList.add('flex');
