@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>雅集 - 古董珍藏賞析</title>
-    
+
     <!-- 引入 Google 字體：Noto Serif TC (思源宋體) 以呈現古典優雅感 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -38,11 +40,12 @@
             background-color: #f5f0e6;
             color: #3e2723;
         }
-        
+
         /* 隱藏滾動條但保持滾動功能 (針對過濾選單) */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
+
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -53,48 +56,65 @@
             animation: fadeIn 0.8s ease-in-out forwards;
             opacity: 0;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         /* 滑鼠懸停圖片放大效果 */
         .gallery-item:hover img {
             transform: scale(1.1);
         }
+
         .gallery-item:hover .overlay {
             opacity: 1;
         }
     </style>
 </head>
+
 <body class="antialiased selection:bg-antique-DEFAULT selection:text-antique-dark scroll-smooth">
 
-    <nav id="navbar" class="fixed w-full z-40 top-0 transition-all duration-300 bg-antique-light/95 backdrop-blur-md border-b border-antique-dark/10">
+    <nav id="navbar"
+        class="fixed w-full z-40 top-0 transition-all duration-300 bg-antique-light/95 backdrop-blur-md border-b border-antique-dark/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 md:h-20">
                 <div class="flex-shrink-0 flex items-center">
                     <a href="#" class="text-2xl font-bold font-serif text-antique-dark tracking-widest">雅集</a>
                 </div>
                 <div class="hidden sm:flex sm:space-x-8">
-                    <a href="#home" class="text-antique-dark hover:text-antique-accent px-3 py-2 text-sm font-medium tracking-widest transition-colors">首頁公告</a>
-                    <a href="#gallery" class="text-antique-dark hover:text-antique-accent px-3 py-2 text-sm font-medium tracking-widest transition-colors">藏品展示</a>
-                    <a href="#about" class="text-antique-dark hover:text-antique-accent px-3 py-2 text-sm font-medium tracking-widest transition-colors">關於</a>
+                    <a href="#home"
+                        class="text-antique-dark hover:text-antique-accent px-3 py-2 text-xl font-medium tracking-widest transition-colors">首頁公告</a>
+                    <a href="#gallery"
+                        class="text-antique-dark hover:text-antique-accent px-3 py-2 text-xl font-medium tracking-widest transition-colors">藏品展示</a>
+                    <a href="#about"
+                        class="text-antique-dark hover:text-antique-accent px-3 py-2 text-xl font-medium tracking-widest transition-colors">關於</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <header id="home" class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden flex items-center justify-center min-h-[85vh]">
+    <header id="home"
+        class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden flex items-center justify-center min-h-[85vh]">
         <div class="absolute inset-0 z-0">
             <!-- 背景圖示範 -->
-            <img src="https://placehold.co/1920x1080/3e2723/d4c4a8?text=Antique+Background" alt="Hero Background" class="w-full h-full object-cover opacity-20">
+            <img src="https://placehold.co/1920x1080/3e2723/d4c4a8?text=Antique+Background" alt="Hero Background"
+                class="w-full h-full object-cover opacity-20">
             <div class="absolute inset-0 bg-gradient-to-b from-antique-light/50 to-antique-light"></div>
         </div>
-        
+
         <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            
+
             <!-- 出清公告卡片 -->
-            <div class="bg-antique-light/85 backdrop-blur-md border-2 border-antique-dark p-8 md:p-12 shadow-2xl mb-10 relative">
+            <div
+                class="bg-antique-light/85 backdrop-blur-md border-2 border-antique-dark p-8 md:p-12 shadow-2xl mb-10 relative">
                 <!-- 裝飾用角標 -->
                 <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-antique-dark m-2"></div>
                 <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-antique-dark m-2"></div>
@@ -104,37 +124,37 @@
                 <h1 class="text-3xl md:text-5xl font-bold text-antique-dark mb-6 tracking-widest leading-snug">
                     我有300餘件古董、紫砂壺<br class="hidden sm:block"><span class="text-[#8b0000] mt-2 inline-block">想出清！</span>
                 </h1>
-                
+
                 <p class="text-xl md:text-2xl text-antique-dark font-semibold mb-6 tracking-wider">
                     含「春秋、戰國、漢唐、宋元、明、清、民國」各朝代珍寶。
                 </p>
-                
+
                 <div class="w-16 h-0.5 bg-antique-DEFAULT mx-auto mb-6"></div>
-                
+
                 <p class="text-lg md:text-xl text-antique-dark mb-6 leading-loose">
-                    這批珍藏，於民國80年左右，<br class="sm:hidden">購於澳門、香港來台跑單幫客。
+                    這批珍藏，約民國80年左右，<br class="sm:hidden">購於澳門、香港來台跑單幫客。
                 </p>
-                
-                <p class="inline-block text-lg md:text-xl font-bold text-[#8b0000] bg-white px-6 py-3 border border-[#8b0000]/30 shadow-sm mb-10 tracking-widest">
+
+                <p
+                    class="inline-block text-lg md:text-xl font-bold text-[#8b0000] bg-white px-6 py-3 border border-[#8b0000]/30 shadow-sm mb-10 tracking-widest">
                     不單獨出售，僅限大批或整批銷售。
                 </p>
-                
+
                 <div class="border-t border-antique-dark/20 pt-8">
                     <p class="text-lg text-antique-dark mb-3 tracking-widest">請聯絡我</p>
                     <p class="text-4xl md:text-5xl font-bold text-antique-dark tracking-widest">
-                        張先生 <a href="tel:0918819857" class="hover:text-antique-accent transition-colors whitespace-nowrap">0918-819-857</a>
+                        張先生 <a href="tel:0918819857"
+                            class="hover:text-antique-accent transition-colors whitespace-nowrap">0918-819-857</a>
                     </p>
                 </div>
             </div>
 
-            <a href="#gallery" class="inline-block bg-antique-dark text-antique-light px-8 py-3 rounded-none border border-antique-dark hover:bg-transparent hover:text-antique-dark transition-all duration-300 uppercase tracking-widest text-sm shadow-md font-bold">
-                往下觀賞部分藏品照片
-            </a>
+
         </div>
     </header>
 
     <main id="gallery" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-antique-dark tracking-widest relative inline-block">
                 藏品展示
@@ -142,10 +162,7 @@
             </h2>
         </div>
 
-        <!-- 分類篩選按鈕 -->
-        <div class="flex justify-center mb-10 overflow-x-auto no-scrollbar py-2" id="filter-container">
-            <!-- 按鈕會由 JavaScript 動態生成 -->
-        </div>
+
 
         <!-- 圖片網格 -->
         <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -154,15 +171,18 @@
 
     </main>
 
-    <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden flex-col justify-center items-center opacity-0 transition-opacity duration-300">
+    <div id="lightbox"
+        class="fixed inset-0 z-50 bg-black/90 hidden flex-col justify-center items-center opacity-0 transition-opacity duration-300">
         <!-- 關閉按鈕 -->
-        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-4xl hover:text-antique-DEFAULT transition-colors focus:outline-none">&times;</button>
-        
+        <button id="lightbox-close"
+            class="absolute top-6 right-6 text-white text-4xl hover:text-antique-DEFAULT transition-colors focus:outline-none">&times;</button>
+
         <!-- 圖片顯示區 -->
         <div class="relative max-w-4xl max-h-[80vh] w-full px-4 flex justify-center">
-            <img id="lightbox-img" src="" alt="Enlarged Antique" class="max-h-[80vh] w-auto object-contain rounded shadow-2xl">
+            <img id="lightbox-img" src="" alt="Enlarged Antique"
+                class="max-h-[80vh] w-auto object-contain rounded shadow-2xl">
         </div>
-        
+
         <!-- 標題與說明 -->
         <div class="text-center mt-6">
             <h3 id="lightbox-title" class="text-2xl text-antique-light font-serif tracking-widest"></h3>
@@ -174,7 +194,8 @@
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold tracking-widest mb-8">關於這批珍藏</h2>
             <p class="text-lg leading-loose text-antique-light/80 text-justify md:text-center">
-                近 300 件的珍寶，涵蓋了春秋戰國至民國歷代，包含精美的紫砂壺、瓷器、玉器等，皆是民國 80 年左右從澳門、香港來台的跑單幫客手中悉心購入。由於數量龐大且珍貴，目前僅提供大批或整批銷售，希望能找到有緣的收藏家，讓這些時光瑰寶得以延續其文化價值。本站隨選了其中約 30 件藏品照片供您線上賞析。
+                近 300 件的珍寶，涵蓋了春秋戰國至民國歷代，包含精美的紫砂壺、瓷器、玉器等，皆是民國 80
+                年左右從澳門、香港來台的跑單幫客手中悉心購入。由於數量龐大且珍貴，目前僅提供大批或整批銷售，希望能找到有緣的收藏家，讓這些時光瑰寶得以延續其文化價值。本站隨選了其中約 30 件藏品照片供您線上賞析。
             </p>
         </div>
     </section>
@@ -200,7 +221,7 @@
         // 模擬 30 張古董照片的資料
         // 【注意】未來您可以將此處的 img 網址，替換為您自己電腦中的圖片路徑 (例如: './images/photo1.jpg')
         const antiques = [];
-        
+
         // 為了展示方便，我們使用迴圈自動生成 30 筆模擬資料
         const categoryIds = ['porcelain', 'jade', 'wood', 'painting'];
         const colors = {
@@ -215,10 +236,10 @@
             let catId = categoryIds[catIndex];
             let catName = categories.find(c => c.id === catId).name;
             let c = colors[catId];
-            
+
             // 隨機產生不同的長寬比以豐富視覺，但為了排版整齊此處統一使用 600x800
             let width = 600;
-            let height = 800; 
+            let height = 800;
 
             antiques.push({
                 id: i,
@@ -232,8 +253,7 @@
 
         // DOM 元素選取
         const galleryGrid = document.getElementById('gallery-grid');
-        const filterContainer = document.getElementById('filter-container');
-        
+
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxTitle = document.getElementById('lightbox-title');
@@ -245,39 +265,19 @@
 
         // 初始化網站
         function init() {
-            renderFilters();
             renderGallery('all');
             setupLightbox();
         }
 
-        // 渲染分類按鈕
-        function renderFilters() {
-            filterContainer.innerHTML = '';
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.innerText = cat.name;
-                btn.className = `px-6 py-2 mx-2 text-sm tracking-wider border transition-all duration-300 rounded-full whitespace-nowrap 
-                    ${cat.id === currentFilter 
-                        ? 'bg-antique-dark text-antique-light border-antique-dark' 
-                        : 'bg-transparent text-antique-dark border-antique-DEFAULT hover:border-antique-dark hover:bg-antique-light/50'}`;
-                
-                btn.onclick = () => {
-                    currentFilter = cat.id;
-                    renderFilters(); // 重新渲染以更新按鈕樣式
-                    renderGallery(cat.id);
-                };
-                filterContainer.appendChild(btn);
-            });
-        }
 
         // 渲染藝廊圖片
         function renderGallery(filterId) {
             // 清空目前的網格
             galleryGrid.innerHTML = '';
-            
+
             // 過濾資料
-            const filteredAntiques = filterId === 'all' 
-                ? antiques 
+            const filteredAntiques = filterId === 'all'
+                ? antiques
                 : antiques.filter(item => item.category === filterId);
 
             // 產生 HTML
@@ -286,7 +286,7 @@
                 // 加入延遲動畫效果 (fade-in)
                 itemDiv.className = `gallery-item relative overflow-hidden bg-white shadow-lg cursor-pointer fade-in rounded`;
                 itemDiv.style.animationDelay = `${(index % 10) * 0.05}s`;
-                
+
                 itemDiv.innerHTML = `
                     <div class="aspect-[3/4] w-full overflow-hidden">
                         <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 ease-out" loading="lazy">
@@ -310,7 +310,7 @@
         function setupLightbox() {
             // 點擊關閉按鈕
             lightboxClose.onclick = closeLightbox;
-            
+
             // 點擊背景空白處也關閉
             lightbox.onclick = (e) => {
                 if (e.target === lightbox) {
@@ -330,14 +330,15 @@
             lightboxImg.src = item.img;
             lightboxTitle.innerText = item.title;
             lightboxCategory.innerText = item.categoryName;
-            
+
             lightbox.classList.remove('hidden');
-            // 延遲一小段時間讓 display:block 生效後再調整透明度產生漸變效果
+            lightbox.classList.add('flex');
+            // 延遲一小段時間讓 display:flex 生效後再調整透明度產生漸變效果
             setTimeout(() => {
                 lightbox.classList.remove('opacity-0');
                 lightbox.classList.add('opacity-100');
             }, 10);
-            
+
             // 鎖定背景滾動
             document.body.style.overflow = 'hidden';
         }
@@ -345,9 +346,10 @@
         function closeLightbox() {
             lightbox.classList.remove('opacity-100');
             lightbox.classList.add('opacity-0');
-            
+
             // 等待過渡動畫結束再隱藏
             setTimeout(() => {
+                lightbox.classList.remove('flex');
                 lightbox.classList.add('hidden');
                 lightboxImg.src = ''; // 清除圖片來源
                 document.body.style.overflow = 'auto'; // 恢復背景滾動
@@ -369,4 +371,5 @@
 
     </script>
 </body>
+
 </html>
